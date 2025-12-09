@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+
+	<style>
+		#container {
+			text-align: center;
+			font-family: Arial;
+		}
+
+		#guessRecord {
+			margin-top: 20px;
+			padding: 10px;
+			border: 1px solid;
+			text-align: left;
+		}
+		
+	</style>
+</head>
+<body>
+	<div id = "container">
+		<h1>114306002_HW7_1A2B</h1>
+
+		<label>Enter 4 unique numbers</label>
+		<input type = "text" id = "guessInput">
+		<button onclick = "play()">Guess!</button>
+		<div id = "guessRecord"><p>Game Record: </p></div>
+ 	</div>
+	<script>
+
+		function generateAnswer(){
+			var digits, answer;
+			digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+			answer = "";
+			for(i = 0; i < 4; i++){
+				var index = Math.floor(Math.random() * digits.length);
+				answer += digits[index];
+				digits.splice(index, 1);
+			}
+			return answer;
+		}
+
+		var answerNum = generateAnswer();
+		var times = 0;
+
+		function isValid(str){
+			var valid = 0;
+			if(str.length !== 4){
+				valid = 1;
+			}else if(str[0] == str[1] || str[0] == str[2] || str[0] == str[3] || str[1] == str[2] || str[1] == str[3] || str[2] == str[3]){
+				valid = 2;
+			}
+			return valid;
+		}
+
+		function checkAB(guess, correctNum){
+			var A = 0;
+			var B = 0;
+			for(j = 0; j < 4; j++){
+				if(guess[j] == correctNum[j]){
+					A++;
+				}else if(correctNum.includes(guess[j])){
+					B++;
+				}
+			}
+			var cor = A + "A" + B + "B";
+			return cor;
+		}
+
+
+		function play(){
+			var input = document.getElementById("guessInput");
+			var guessNum = input.value;
+
+			if(isValid(guessNum) == 1){
+				alert("請輸入有效四位數字！");
+				input.value = "";
+				return;
+			}else if(isValid(guessNum) == 2){
+				alert("四位數字不得重複");
+				input.value = "";
+				return;
+			}
+
+			times++;
+			var result = checkAB(guessNum, answerNum);
+			var record = document.getElementById("guessRecord");
+			record.innerHTML += "第 " + times + " 次: " + guessNum + " → " + result + "<p>";
+
+			if (result === "4A0B") {
+				alert("正確! 你在第 " + times + "次成功猜到答案!");
+    		}
+
+    		input.value = "";
+
+		}
+
+	</script>
+
+</body>
+</html>
