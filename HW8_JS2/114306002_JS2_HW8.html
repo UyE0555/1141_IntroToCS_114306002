@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style>
+		body{
+			font-family: Arial, sans-serif;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 100vh;
+			margin: 0;
+			background-color: #f4f4f4;
+		}
+
+		.main-container{
+			background-color: white;
+			padding: 30px;
+			border-radius: 8px;
+			box-shadow: 0 4px;
+			width: 300px;
+			text-align: center;
+		}
+
+		h1{
+			margin-bottom: 15px;
+			border-bottom: 2px solid;
+			padding-bottom: 10px;
+		}
+
+		.input-section{
+			margin-bottom: 15px;
+			text-align: left;
+		}
+
+		.input-section label{
+			display: block;
+			font-weight: bold;
+			margin-bottom: 5px;
+			text-align: center;
+		}
+
+		.input-section input, .input-section select {
+			width: 100%;
+			padding: 10px;
+			box-sizing: border-box;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			font-size: 16px;
+		}
+
+		#calculateButton{
+			background-color: green;
+			color: white;
+			padding: 10px 15px;
+			border: none;
+			border-radius: 4px;
+			width: 100%;
+			font-size: 20px;
+			margin-top: 10px;
+		}
+
+		#calculateButton:hover{
+			background-color: seagreen;
+		}
+
+		#result{
+			margin-top: 20px;
+			font-weight: bold;
+		}
+
+	</style>
+</head>
+<body>
+	<div class = "main-container">
+		<h1>JS Calaulator</h1>
+
+		<div class = "input-section">
+			<label for = "a">Number 1</label>
+			<input type = "number" id = "num1">
+			<label for = "b">Number 2</label>
+			<input type = "number" id = "num2">
+			<label for = "operator">Operate Way?</label>
+			<select id="operator">
+                <option value = "+">+</option>
+                <option value = "-">-</option>
+                <option value = "*">×</option>
+                <option value = "/">÷</option>
+            </select>
+        </div>
+
+        <button id = "calculateButton" onclick = "calculate()">Add</button>
+        <p id = "result"></p>
+    </div>
+
+    <script>
+    	num1 = document.getElementById("num1");
+    	num2 = document.getElementById("num2");
+  		operator = document.getElementById("operator");
+  		calculateButton = document.getElementById("calculateButton");
+  		result = document.getElementById("result");
+
+  		function add(a, b){
+  			return a + b;
+  		}
+
+  		function subtract(a, b){
+  			return a - b;
+  		}
+
+  		function multiply(a, b){
+  			return a * b;
+  		}
+
+  		function divide(a, b){
+  			if(b == 0){
+  				alert("You can not divide zero");
+  				return;
+  			}
+  			return a / b;
+  		}
+
+  		function calculate(){
+  			firstNum = parseFloat(num1.value);
+  			secondNum = parseFloat(num2.value);
+  			opr = operator.value;
+  			var answer;
+
+  			if(isNaN(firstNum) || isNaN(secondNum)){
+  				alert("Please enter valid number");
+  				return;
+  			}
+
+  			switch(opr){
+  			case "+":
+  				answer = add(firstNum, secondNum);
+  				break;
+
+  			case "-":
+  				answer = subtract(firstNum, secondNum);
+  				break;
+
+  			case "*":
+  				answer = multiply(firstNum, secondNum);
+  				break;
+
+  			case "/":
+  				answer = divide(firstNum, secondNum);
+  				break;
+
+  			default:
+  				alert("Error");
+  				break;
+  			}
+
+  			result.textContent = "Result = " + answer;
+  		}
+
+  		function change(){
+  			chosenOperator = operator.value;
+
+  			if(chosenOperator == "+"){
+  				calculateButton.textContent = "Add";
+  			}else if(chosenOperator == "-"){
+  				calculateButton.textContent = "Subtract";
+  			}else if(chosenOperator == "*"){
+  				calculateButton.textContent = "Multiply";
+  			}else if(chosenOperator == "/"){
+  				calculateButton.textContent = "Divide";
+  			}
+
+   		}
+
+  		calculateButton.addEventListener("click", calculate);
+  		operator.addEventListener("change", change);
+  		window.addEventListener("load", change);
+
+    </script>
+
+</body>
+</html>
