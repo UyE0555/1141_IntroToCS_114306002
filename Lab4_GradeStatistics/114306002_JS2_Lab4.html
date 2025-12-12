@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style>
+		body{
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 20px;
+			text-align: center;
+		}
+
+		.inputSection{
+			margin-bottom: 20px;
+		}
+
+		table{
+			margin: auto;
+			width: 75%;
+			background: white;
+			border-radius: 8px;
+			overflow: hidden;
+
+		}
+
+		thead{
+			background: lightgray;
+			font-weight: bold;
+			padding: 12px;
+		}
+
+		tfoot{
+			background: lightgray;
+			font-weight: bold;
+			padding: 12px;
+		}
+		
+	</style>
+</head>
+<body>
+	<div class = "main-container">
+		<h1>Grade Statistics</h1>
+		<div class = "inputSection">
+			<input id = "mathScore" type = "number" placeholder = "Math">
+			<input id = "englishScore" type = "number" placeholder = "English">
+			<input id = "submitButton" type= "button" value = "Submit">
+		</div>
+
+		<table id = "scoreTable">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Math</th>
+					<th>English</th>
+					<th>Average</th>
+				</tr>
+			</thead>
+			<tbody id = "tableBody"></tbody>
+
+			<tfoot>
+				<tr>
+					<th>Average</th>
+					<th id = "mathAvg">0.00</th>
+					<th id = "engAvg">0.00</th>
+					<th id = "totalAvg">0.00</th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+
+	<script>
+		var mathScore = document.getElementById("mathScore");
+		var englishScore = document.getElementById("englishScore");
+		var mathAvg, engAvg, totalAvg;
+		var grades = [];
+
+		function start(){
+            var button = document.getElementById("submitButton");
+            button.addEventListener("click", addGrade, false);
+       	}
+
+       	function addGrade(){
+       		math = Number(mathScore.value);
+       		english = Number(englishScore.value);
+
+       		if(math < 0 || english < 0 || math > 100 || english > 100){
+       			alert("Your grades should be between 0 and 100")
+       			return;
+       		}
+
+       		if(math == "" || english == ""){
+       			alert("Please enter both of your grades")
+       			return;
+       		}
+
+       		var average = ((math + english) / 2).toFixed(2);
+
+       		grades.push({math: math, eng: english, avg: average});
+
+       		updateTableRows();
+       		updateColumnAverages();
+
+       		mathScore.value = "";
+       		englishScore.value = "";
+       	}
+
+       	function updateTableRows(){
+       		var tbody = document.getElementById("tableBody");
+       		tbody.innerHTML = "";
+
+       		for (i = 0; i < grades.length; i++) {
+        		var row = grades[i];
+        		var tr = tbody.insertRow();
+
+        		numCell = tr.insertCell(0);
+        		mathCell = tr.insertCell(1);
+        		engCell = tr.insertCell(2);
+        		avgCell = tr.insertCell(3);
+
+        		numCell.textContent = i + 1;
+        		mathCell.textContent = row.math;
+        		engCell.textContent = row.eng;
+        		avgCell.textContent = row.avg;
+        	}
+       	}
+
+       	function updateColumnAverages(){
+       		var mathSum = 0;
+       		var engSum = 0;
+       		var avgSum = 0;
+
+       		for(i = 0; i < grades.length; i++){
+       			var total = grades[i];
+
+       			mathSum += total.math;
+       			engSum += total.eng;
+       			avgSum += total.avg;
+       		}
+
+       		document.getElementById("mathAvg").innerHTML = (mathSum / grades.length).toFixed(2);
+       		document.getElementById("engAvg").innerHTML = (engSum / grades.length).toFixed(2);
+       		document.getElementById("totalAvg").innerHTML = (avgSum / grades.length).toFixed(2);
+
+
+       	}
+
+       	window.addEventListener("load", start, false);
+		
+	</script>
+
+</body>
+</html>
